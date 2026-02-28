@@ -5,10 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gender Reveal 💖💙 Elisabetta & Emanuel</title>
 
-    <meta property="og:title" content="Gender Reveal - Elisabetta & Emanuel 🧸">
-    <meta property="og:description" content="Ti aspettiamo il 4 Aprile per scoprire insieme se sarà maschietto o femminuccia! 🎀💙">
-    <meta property="og:type" content="website">
-
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
@@ -17,39 +13,182 @@
             --pink: #ff9ed2;
             --blue: #8ecbff;
             --text: #444;
-            --accent: #d4a373;
         }
-
-        * { box-sizing: border-box; }
 
         body, html {
             margin: 0;
             padding: 0;
-            height: 100%;
             font-family: 'Quicksand', sans-serif;
             text-align: center;
             color: var(--text);
             background: linear-gradient(135deg, #ffd6ec 0%, #d6ecff 100%);
             background-attachment: fixed;
+            min-height: 100vh;
         }
-
-        /* Blocca lo scroll solo quando la cover è attiva */
-        body.no-scroll { overflow: hidden; }
 
         /* --- Pagina di Copertina --- */
         #cover {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(135deg, #ffd6ec 0%, #d6ecff 100%);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 1000;
-            transition: opacity 0.8s ease, visibility 0.8s;
+            z-index: 9999;
         }
 
-        .cover
+        .cover-balloons { font-size: 80px; margin-bottom: 20px; }
+        
+        .floating {
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        #entry-button {
+            background: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        /* --- Contenuto --- */
+        #main-content {
+            display: none; /* Nascosto all'inizio */
+            padding: 40px 20px;
+        }
+
+        .container { max-width: 500px; margin: 0 auto; }
+
+        .card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 25px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+
+        .action-btn {
+            background: linear-gradient(45deg, var(--pink), var(--blue));
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        #result {
+            display: none;
+            margin-top: 20px;
+            font-weight: bold;
+            padding: 15px;
+            border: 2px dashed var(--pink);
+            border-radius: 15px;
+        }
+
+        .countdown {
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="cover">
+        <div class="cover-balloons">
+            <span class="floating">💖</span>
+            <span class="floating" style="animation-delay: 1s">💙</span>
+        </div>
+        <button id="entry-button" onclick="start()">Apri l'Invito 💫</button>
+    </div>
+
+    <div id="main-content">
+        <div class="container">
+            <div style="font-size: 50px;">🧸</div>
+            <h1>Con tanto amore...</h1>
+
+            <div class="card">
+                <p>Mamma <strong>Elisabetta</strong> 🤰🏻💗<br>
+                e papà <strong>Emanuel</strong> 👨🏻‍🍼💙<br>
+                ti invitano a festeggiare insieme!</p>
+                
+                <h2 style="color: #e07a5f;"> Sabato 4 Aprile 2026</h2>
+                <p>ore 18:00 - Vecchio Frantoio<br>Cagnano Varano</p>
+                <div class="countdown" id="timer">Calcolo...</div>
+            </div>
+
+            <div class="card">
+                <h3>🎀 Maschietto o Femminuccia? 💙</h3>
+                <button class="action-btn" onclick="scopri()">Scopriamolo insieme ✨</button>
+                <div id="result">
+                    🎊 In arrivo una dolcissima sorpresa! 🎊<br>
+                    <small>(Lo scopriremo solo quel giorno! 😉)</small>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>📍 Indicazioni</h3>
+                <a href="https://www.google.com/maps/search/?api=1&query=Vecchio+Frantoio+Cagnano+Varano" target="_blank" class="action-btn">Apri Mappa 🚗</a>
+            </div>
+
+            <div class="card">
+                <h3>📩 Conferma</h3>
+                <a href="https://wa.me/393473402769?text=Ciao!+Confermo+la+presenza!" class="action-btn">WhatsApp 💚</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function start() {
+            // Nasconde la cover e mostra il contenuto
+            document.getElementById('cover').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+
+            // Effetto coriandoli
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#ff9ed2', '#8ecbff']
+            });
+        }
+
+        function scopri() {
+            document.getElementById('result').style.display = 'block';
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                colors: ['#ff9ed2', '#8ecbff']
+            });
+        }
+
+        // Countdown semplice
+        const fine = new Date("April 4, 2026 18:00:00").getTime();
+        setInterval(function() {
+            const ora = new Date().getTime();
+            const diff = fine - ora;
+            const giorni = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const ore = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            document.getElementById("timer").innerHTML = "⏳ Mancano " + giorni + "g e " + ore + "h";
+        }, 1000);
+    </script>
+</body>
+</html>
