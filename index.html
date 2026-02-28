@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gender Reveal 💖💙 Elisabetta & Emanuel</title>
+
+    <meta property="og:title" content="Gender Reveal - Elisabetta & Emanuel 🧸">
+    <meta property="og:description" content="Ti aspettiamo il 4 Aprile per scoprire insieme se sarà maschietto o femminuccia! 🎀💙">
+    <meta property="og:type" content="website">
+
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --pink: #ff9ed2;
+            --blue: #8ecbff;
+            --text: #444;
+            --accent: #d4a373;
+        }
+
+        * { box-sizing: border-box; }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Quicksand', sans-serif;
+            text-align: center;
+            color: var(--text);
+            background: linear-gradient(135deg, #ffd6ec 0%, #d6ecff 100%);
+            background-attachment: fixed;
+        }
+
+        /* Blocca lo scroll solo quando la cover è attiva */
+        body.no-scroll { overflow: hidden; }
+
+        /* --- Pagina di Copertina --- */
+        #cover {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ffd6ec 0%, #d6ecff 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.8s ease, visibility 0.8s;
+        }
+
+        .cover
